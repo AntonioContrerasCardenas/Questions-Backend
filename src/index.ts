@@ -31,3 +31,5 @@ app.listen(PORT, async () => {
   // descomentar esta linea en caso de querer crear la base de datos
   //await seedDatabase()
 })
+
+export default app

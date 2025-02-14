@@ -21,7 +21,8 @@ const register = async (req: Request, res: Response) => {
       const errorMessages = Object.values(error.errors).map(
         (err: any) => err.message
       )[0]
-      return res.status(400).send({ error: errorMessages })
+      res.status(400).send({ error: errorMessages })
+      return
     }
     res.status(400).send({ error: error.message })
   }

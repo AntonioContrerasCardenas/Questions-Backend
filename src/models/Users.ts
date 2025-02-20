@@ -21,7 +21,9 @@ const UsersSchema = new Schema<IUser>({
     trim: true,
     minlength: [3, 'Name must be at least 3 characters'],
     validate: {
-      validator: (value: string) => /^[a-zA-Z\s]+$/.test(value),
+      validator: (value: string) => {
+        return /^[a-zA-Z\s]+$/.test(value)
+      },
       message: 'Name must only contain letters and spaces',
     },
   },
@@ -70,8 +72,18 @@ UsersSchema.pre('save', async function (next) {
   next()
 })
 
+// UsersSchema.post('save', async function (user) {
+//   if (user.isNew) {
+//     user.tokens = user.tokens.concat({ token: await user.generateAuthToken() })
+//   }
+// })
+
 UsersSchema.methods.comparePassword = async function (password: string) {
   return bcrypt.compare(password, this.password)
+}
+
+UsersSchema.statics.findByEmail = async function (email: string) {
+  return this.findOne({ email })
 }
 
 UsersSchema.methods.generateAuthToken = async function () {
